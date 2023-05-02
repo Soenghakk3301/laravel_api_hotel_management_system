@@ -34,24 +34,28 @@ class RoomsController extends Controller
                  ->select('rooms.*', 'room_types.name', 'room_types.bed_type', 'room_types.price', 'room_types.room_size', 'room_types.floor', 'room_types.num_guest');
 
       if($request->checkIn && $request->checkOut)
-         $unavailableRooms = AvailabilityChecker::getUnavailableRoomsForDateRange($request->checkIn, $request->checkOut);
-      // $unavailableRooms = [1, 2];
+         $unavailableRooms = AvailabilityChecker::getUnavailableRoomsForDateRange($request->checkIn, $request->checkOut); // $unavailableRooms = [1, 2];
 
       // $rooms = $rooms->where($query)->get();
       $rooms = $rooms->where($query);
 
-      // $rooms = $rooms->where($query);
+       // add pagination
+      //  $perPage = $request->input('per_page', 10); // default 10 per page
+      //  $currentPage = $request->input('page', 1);
+      //  $rooms = $rooms->paginate($perPage, ['*'], 'page', $currentPage);
 
-      
+
+      // get the rooms with paginate and handle the break pagination codes.
+      $rooms = $rooms->paginate(10)->appends($request->query());
+
       // change values of rooms that are unavailables
-      if($request->checkIn && $request->checkOut){
-            foreach($rooms as &$room) 
-               if(in_array($room['id'], $unavailableRooms))
-                  $room['is_available'] = false;
-      }
-      
-      $rooms = $rooms->where($query);
-      return RoomResource::collection($rooms->paginate(10)->appends($request->query()));
+       if($request->checkIn && $request->checkOut){
+         foreach($rooms as &$room) 
+            if(in_array($room['id'], $unavailableRooms))
+               $room['is_available'] = 0;
+       }
+
+       return RoomResource::collection($rooms);
     }
 
     /**
