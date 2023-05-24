@@ -17,8 +17,6 @@ use Illuminate\Support\Facades\Request;
 
 
 
-
-
 class RoomReservationController extends Controller
 {
     /**
@@ -37,30 +35,6 @@ class RoomReservationController extends Controller
      * @param  \App\Http\Requests\StoreRoomReservationRequest  $request
      * @return \Illuminate\Http\Response
      */
-    
-     // in this case, we are focus on the process of make booking at the hotel. to make it
-     // work first. And later on we will implement by online booking.
-     // In this Algorithms, we add new table called " Transaction Table "
-     // This table will store the amount's price of each room based on staying duration.
-     
-
-
-     // I've changed my mind, now i'm gonna focus on by online booking.
-
-     // get all request data. 
-     // such as: 
-     // check_in, check_out, guest_name, guest_email, guest_phone_number, is_male, special_request, num_rooms, amounts
-     // roomtypes,
-
-
-     //// ==> divice amounts / num_rooms => price of each rooms, ==> to be stored on room_reservation's table
-     //// ==> random algorithm to select available rooms,
-     //// ==> check if num_rooms of a specific of roomtype has enought for booking or not.
-     //// => for example if user want 3 rooms, by default 5 rooms are available, so rooms that are selected
-     //// must be: 1, 2, 3, 
-     //// ==> if one or two of those are not available, let's consider to, by the same example user want 3
-     //// rooms, but, 2, 3 are not available anymore, so rooms are selected: 1, 4, 5.
-     /// that is the format we want to think of.
 
     public function store(StoreRoomReservationRequest $request)
     {
@@ -83,17 +57,7 @@ class RoomReservationController extends Controller
 
 
       $roomtypes['total_rooms'] = $num_rooms;
-      
-      // return $roomtypes;
-
-      // check if the rooms is available for date range
-      // $unavailableRooms = AvailabilityChecker::getUnavailableRooms(
-      //                         $validatedData['check_in'], 
-      //                         $validatedData['check_out'], 
-      //                         $validatedData['room_bookings']
-      //                      )->toArray();
-
-
+   
       // get unavailable rooms of date ranges
       $unavailableRooms = AvailabilityChecker::getUnavailableRooms(
                            $validatedData['check_in'], 
@@ -114,12 +78,7 @@ class RoomReservationController extends Controller
      
       $room_bookings = array_slice($room_bookings, 0, $num_rooms);
 
-      // return $room_bookings;
-
-
-      // Check if there is any room which is available for booking or not?
-      // if ($unavailableRooms->count() > 0)
-      //     return response()->json(['message' => $message], 400);
+      return response()->json(['message' => $message], 400);
       
 
       // Make new Reservation
@@ -188,8 +147,6 @@ class RoomReservationController extends Controller
       ]);
    }
 
-
-   
 
     /**
      * Display the specified resource.
