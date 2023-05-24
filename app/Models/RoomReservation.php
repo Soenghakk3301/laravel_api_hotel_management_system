@@ -18,4 +18,8 @@ class RoomReservation extends Model
     {
         return $this->belongsTo(Rooms::class);
     }
+
+    public function transaction() {
+      return $this->hasOne(transaction::class);
+    }
 }

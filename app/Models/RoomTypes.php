@@ -27,4 +27,8 @@ class RoomTypes extends Model
     public function addOnServices() {
       return $this->hasMany(AddOnServices::class);
     }
+
+    public function rooms() {
+      return $this->hasMany(Rooms::class);
+    }
 }

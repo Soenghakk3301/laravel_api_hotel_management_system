@@ -30,8 +30,11 @@ class StoreRoomReservationRequest extends FormRequest
          'guest_email' => 'required|email',
          'guest_phone_number' => 'required|string',
          'is_male' => 'required|boolean',
-         'room_bookings' => 'required|array',
-         'room_bookings.*.room_id' => 'required|integer|exists:rooms,id',
+         'room_bookings' => 'sometimes|array',
+         'room_bookings.*.room_id' => 'sometimes|integer|exists:rooms,id',
+         'num_rooms' => 'required|integer',
+         'amount' => 'required',
+         'roomtype' => "required|string",
      ];
     }
 }

@@ -13,21 +13,23 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('reservations', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('room_reservation_id');
             $table->unsignedBigInteger('guest_id');
+            
+            $table->float('amount');
 
-            $table->date('check_in');
-            $table->date('check_out');
-            $table->string('special_requests')->nullable();
-
-
-            $table->enum('payment_method', ['Online', 'Cast']);
-
+            $table->foreign('room_reservation_id')
+                  ->references('id')
+                  ->on('room_reservations')
+                  ->cascadeOnDelete();
+                  
             $table->foreign('guest_id')
                   ->references('id')
                   ->on('guests')
                   ->cascadeOnDelete();
+
 
             $table->timestamps();
         });
@@ -40,6 +42,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reservations');
+        Schema::dropIfExists('transactions');
     }
 };
