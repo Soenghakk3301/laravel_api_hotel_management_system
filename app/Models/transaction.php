@@ -9,7 +9,11 @@ class transaction extends Model
 {
     use HasFactory;
 
-    public function reservation() {
-      return $this->belongsToMany(RoomReservation::class);
+    public function roomReservation() {
+      return $this->belongsTo(RoomReservation::class);
+    }
+
+    public function guest() {
+      return $this->belongsTo(Guest::class);
     }
 }

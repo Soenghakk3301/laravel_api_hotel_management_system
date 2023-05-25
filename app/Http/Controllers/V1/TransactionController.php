@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V1;
 
 use App\Models\transaction;
-use App\Http\Requests\StoretransactionRequest;
-use App\Http\Requests\UpdatetransactionRequest;
+use App\Http\Requests\V1\StoretransactionRequest;
+use App\Http\Requests\V1\UpdatetransactionRequest;
+use App\Http\Resources\V1\TransactionResource;
 
 class TransactionController extends Controller
 {
@@ -15,18 +16,9 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        //
+        return TransactionResource::collection(transaction::all());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -50,16 +42,6 @@ class TransactionController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\transaction  $transaction
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(transaction $transaction)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.

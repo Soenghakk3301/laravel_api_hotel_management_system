@@ -42,9 +42,6 @@ class RoomReservationController extends Controller
 
       $message = 'One or more of the selected rooms are not available during the requested booking period';
 
-
-      // dd($validatedData);
-
       $roomtypes = RoomTypes::with('rooms')->where('name', $request->roomtype)->get();
 
       $num_rooms = RoomTypes::with('rooms')
@@ -63,8 +60,6 @@ class RoomReservationController extends Controller
                            $validatedData['check_in'], 
                            $validatedData['check_out'], 
                         )->toArray();
-
-      // return $unavailableRooms;
 
       // get all id of rooms that available of roomtype
       $rooms = Rooms::where('room_types_id', 1)->pluck('id')->toArray();
