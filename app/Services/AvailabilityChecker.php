@@ -20,7 +20,7 @@ class AvailabilityChecker
                           ->where('check_out', '>=', $checkOutDate);
                 });
         })->pluck('room_id');
-        
+
       $unavailableRooms = $bookedRoomIds;
 
         return $unavailableRooms;
@@ -63,7 +63,7 @@ class AvailabilityChecker
                   ->where('check_out', '>', $checkOutDate);
          });
       })->pluck('room_id')->unique();
-      
+
       $unavailableRooms = Rooms::whereIn('id', $bookedRooms)
                               //  ->with('roomtype')
                                ->select('room_types_id', DB::raw('count(*) as count'))
@@ -88,7 +88,7 @@ class AvailabilityChecker
                   ->where('check_out', '>', $checkOutDate);
          });
       })->pluck('room_id')->unique();
-      
+
       $unavailableRooms = $bookedRooms->toArray();
 
       return $unavailableRooms;

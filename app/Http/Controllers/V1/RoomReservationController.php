@@ -42,6 +42,9 @@ class RoomReservationController extends Controller
 
       $message = 'One or more of the selected rooms are not available during the requested booking period';
 
+
+      // dd($validatedData);
+
       $roomtypes = RoomTypes::with('rooms')->where('name', $request->roomtype)->get();
 
       $num_rooms = RoomTypes::with('rooms')
@@ -54,12 +57,15 @@ class RoomReservationController extends Controller
 
 
       $roomtypes['total_rooms'] = $num_rooms;
-   
+
+
       // get unavailable rooms of date ranges
       $unavailableRooms = AvailabilityChecker::getUnavailableRooms(
                            $validatedData['check_in'], 
                            $validatedData['check_out'], 
                         )->toArray();
+
+      // return $unavailableRooms;
 
       // get all id of rooms that available of roomtype
       $rooms = Rooms::where('room_types_id', 1)->pluck('id')->toArray();
@@ -72,9 +78,6 @@ class RoomReservationController extends Controller
       });
      
       $room_bookings = array_slice($room_bookings, 0, $num_rooms);
-
-      return response()->json(['message' => $message], 400);
-      
 
       // Make new Reservation
       $reservation = new Reservation();
@@ -111,6 +114,7 @@ class RoomReservationController extends Controller
 
       return response()->json(['data' => $reservation], 201);
     }
+
 
 
    /**
