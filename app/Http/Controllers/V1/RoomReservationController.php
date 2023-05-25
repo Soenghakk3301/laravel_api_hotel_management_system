@@ -67,6 +67,9 @@ class RoomReservationController extends Controller
 
       // return $unavailableRooms;
 
+      /**
+       * Need to be fixed, when implement with real data, we use id of roomtypes, this id will dynamic.
+       */
       // get all id of rooms that available of roomtype
       $rooms = Rooms::where('room_types_id', 1)->pluck('id')->toArray();
 

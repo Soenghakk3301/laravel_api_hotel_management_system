@@ -65,7 +65,6 @@ class AvailabilityChecker
       })->pluck('room_id')->unique();
 
       $unavailableRooms = Rooms::whereIn('id', $bookedRooms)
-                              //  ->with('roomtype')
                                ->select('room_types_id', DB::raw('count(*) as count'))
                                ->groupBy('room_types_id')
                                ->get();      
