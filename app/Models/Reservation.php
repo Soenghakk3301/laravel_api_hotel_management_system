@@ -20,7 +20,7 @@ class Reservation extends Model
     }
 
     // Define the relationship with rooms throught room reservations
-    public function rooms() {
-      return $this->hasManyThrough(Rooms::class, RoomReservation::class);
-    }
+   //  public function rooms() {
+   //    return $this->hasManyThrough(Rooms::class, RoomReservation::class);
+   //  }
 }
