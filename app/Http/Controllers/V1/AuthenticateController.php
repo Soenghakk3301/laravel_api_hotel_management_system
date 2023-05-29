@@ -3,34 +3,38 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Requests\V1\RegisterRequest;
-use App\Services\AuthenicateService;
+use App\Models\User;
+use App\Traits\HttpResponses;
 use Illuminate\Support\Facades\Auth;
 
-use App\Models\Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 
 class AuthenticateController extends Controller
 {
+
+   use HttpResponses;
    /**
     * Handle an authentication register attempt.
     */
-    public function register(RegisterRequest $request, AuthenicateService $authenicateService) 
+    public function register(RegisterRequest $request) 
     {  
-      // create user + validate all incoming data
-      $user = $authenicateService->createUser($request->validated($request->all()));
+      
+      $request->validated($request->all());
 
+      $user = User::create([
+         'user_types_id' => $request->user_types_id,
+         'name' => $request->name,
+         'email' => $request->email,
+         'phone_number' => $request->phone_number,
+         'gender' => $request->gender,
+         'password' => Hash::make($request->password)
+      ]);
 
-      $token = $user->createToken($request->auth_token)->plainTextToken;
-
-      return response()->json([
-         'status' => 'success',
-         'data' => [
-            'user' => $user,
-         ],
-         'token' => $token,
-      ], 201);
+      return $this->success([
+         'user' => $user,
+         'token' => $user->createToken('Api Token of ' . $user->name)->plainTextToken,
+      ]);
     }
 
     /**
@@ -43,63 +47,31 @@ class AuthenticateController extends Controller
       $request->validate([
          'email' => 'required|email',
          'password' => 'required',
-         'device_name' => 'required',
       ]);
   
-      $user = Users::where('email', $request->email)->first();
-   
-      if (! $user || ! Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-               'email' => ['The provided credentials are incorrect.'],
-            ]);
+      
+      if(!Auth::attempt($request->only(['email', 'password']))) {
+         return $this->error('', 'Credentials do not match', 401);
       }
-   
-      $token = $user->createToken($request->user()->name)->plainTextToken;
+      
+      $user = User::where('email', $request->email)->first();
 
-      return $this->respondWithToken($token);
+       return $this->success([
+         'user' => $user,
+         'token' => $user->createToken('Api of token ' . $user->name)->plainTextToken,
+      ]);
    }
-
-    /**
-     * Get the authenticated User.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function me()
-    {
-        return response()->json(auth()->user());
-    }
 
     /**
      * Log the user out (Invalidate the token).
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout(Request $request)
-    {
-         $request->user()->currentAccessToken()->delete();
+    public function logout(Request $request) {
+      auth()->user()->tokens()->delete();
 
-         return response()->json(['message' => 'Logged out']);
-    }
-
-    /**
-     * Get the token array structure.
-     *
-     * @param  string $token
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function respondWithToken($token)
-    {
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'Bearer',
-            'expires_in' => Auth::factory()->getTTL() * 60
-        ]);
-    }
-
-
-    public function generateToken()
-    {
-
+      return $this->success([
+         'message' => 'You have successfully been logout and your token has been deleted.'
+      ]);
     }
 }

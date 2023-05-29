@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\V1\AddOnServicesController;
+use App\Http\Controllers\V1\AuthenticateController;
 use App\Http\Controllers\V1\ImagesController;
 use App\Http\Controllers\V1\RoomsController;
 use App\Http\Controllers\V1\RoomTypesController;
@@ -36,5 +37,8 @@ Route::post('reservations/addBooking/searchAvailable', [SearchAvailable::class, 
 
 
 /**
- * 
- */
+ * Authentication
+*/
+Route::post('/register', [AuthenticateController::class, 'register']);
+Route::post('/login', [AuthenticateController::class, 'login']);
+Route::post('/logout', [AuthenticateController::class, 'logout'])->middleware('auth:sanctum');
