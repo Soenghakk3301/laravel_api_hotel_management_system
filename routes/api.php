@@ -9,20 +9,8 @@ use App\Http\Controllers\V1\ServicesController;
 use App\Http\Controllers\V1\UserTypesController;
 use App\Http\Controllers\V1\RoomReservationController;
 use App\Http\Controllers\V1\TransactionController;
-use App\Models\Services;
 use App\Services\SearchAvailable;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
-// we will implement roles and permissions in our app, role: admin, stuff, guest. by default our app will assign role to guest,
-// for the 2 other roles, these are the special roles, that these roles will only created by admin. in the system.
-
-
-// Take that must be completed:
-// Refactor code. Make it more and manageble.
-// the return of result (json form) must be in standrad.
-// Completed in 6 hours.
-
 
 // private routes
 Route::apiResource('roomtypes', RoomTypesController::class)
@@ -54,7 +42,7 @@ Route::apiResource('rooms', RoomsController::class)
 Route::apiResource('rooms', RoomsController::class)->only(['index', 'show']);
 
 Route::apiResource('room_reservations', RoomReservationController::class);
-Route::apiResource('transactions', TransactionController::class);
+Route::apiResource('transactions', TransactionController::class)->middleware('auth:sanctum');
 
 
 /**
