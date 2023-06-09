@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Rooms;
 use App\Models\User;
+use App\Models\UserTypes;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class RoomsPolicy
@@ -41,7 +42,7 @@ class RoomsPolicy
      */
     public function create(User $user)
     {
-        //
+      return in_array($user->user_types_id, [UserTypes::IS_ADMIN, UserTypes::IS_STUFF]);
     }
 
     /**
@@ -53,7 +54,7 @@ class RoomsPolicy
      */
     public function update(User $user, Rooms $rooms)
     {
-        //
+      return in_array($user->user_types_id, [UserTypes::IS_ADMIN, UserTypes::IS_STUFF]);
     }
 
     /**
@@ -65,7 +66,7 @@ class RoomsPolicy
      */
     public function delete(User $user, Rooms $rooms)
     {
-        //
+      return in_array($user->user_types_id, [UserTypes::IS_ADMIN, UserTypes::IS_STUFF]);
     }
 
     /**

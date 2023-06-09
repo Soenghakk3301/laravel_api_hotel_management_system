@@ -13,7 +13,12 @@ class UserTypes extends Model
       'user_type_name'
     ];
 
-    public function user() {
-      return $this->hasMany(Users::class);
+    public const IS_ADMIN = 1;
+    public const IS_STUFF = 2;
+    public const IS_USER = 3;
+
+    public function user()
+    {
+        return $this->hasMany(Users::class);
     }
 }

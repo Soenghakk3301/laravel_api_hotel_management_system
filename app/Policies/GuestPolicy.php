@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Guest;
 use App\Models\User;
+use App\Models\UserTypes;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class GuestPolicy
@@ -18,7 +19,7 @@ class GuestPolicy
      */
     public function viewAny(User $user)
     {
-        //
+      return in_array($user->user_types_id, [UserTypes::IS_ADMIN, UserTypes::IS_STUFF]);
     }
 
     /**
@@ -30,7 +31,7 @@ class GuestPolicy
      */
     public function view(User $user, Guest $guest)
     {
-        //
+        
     }
 
     /**
@@ -41,7 +42,7 @@ class GuestPolicy
      */
     public function create(User $user)
     {
-        //
+      
     }
 
     /**
@@ -53,7 +54,7 @@ class GuestPolicy
      */
     public function update(User $user, Guest $guest)
     {
-        //
+        
     }
 
     /**
@@ -65,7 +66,7 @@ class GuestPolicy
      */
     public function delete(User $user, Guest $guest)
     {
-        //
+        
     }
 
     /**
@@ -77,7 +78,7 @@ class GuestPolicy
      */
     public function restore(User $user, Guest $guest)
     {
-        //
+        
     }
 
     /**
@@ -89,6 +90,6 @@ class GuestPolicy
      */
     public function forceDelete(User $user, Guest $guest)
     {
-        //
+        
     }
 }

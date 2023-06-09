@@ -18,7 +18,7 @@ class UserTypesPolicy
      */
     public function viewAny(User $user)
     {
-        //
+      return $user->user_types_id == UserTypes::IS_ADMIN;
     }
 
     /**
@@ -41,7 +41,7 @@ class UserTypesPolicy
      */
     public function create(User $user)
     {
-        //
+      return $user->user_types_id == UserTypes::IS_ADMIN;
     }
 
     /**
@@ -53,7 +53,7 @@ class UserTypesPolicy
      */
     public function update(User $user, UserTypes $userTypes)
     {
-        //
+      return $user->user_types_id == UserTypes::IS_ADMIN;
     }
 
     /**
@@ -65,7 +65,7 @@ class UserTypesPolicy
      */
     public function delete(User $user, UserTypes $userTypes)
     {
-        //
+      return $user->user_types_id == UserTypes::IS_ADMIN;
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Images;
 use App\Models\User;
+use App\Models\UserTypes;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ImagesPolicy
@@ -18,7 +19,7 @@ class ImagesPolicy
      */
     public function viewAny(User $user)
     {
-        //
+
     }
 
     /**
@@ -30,7 +31,7 @@ class ImagesPolicy
      */
     public function view(User $user, Images $images)
     {
-        //
+
     }
 
     /**
@@ -41,7 +42,7 @@ class ImagesPolicy
      */
     public function create(User $user)
     {
-        //
+        return in_array($user->user_types_id, [UserTypes::IS_ADMIN, UserTypes::IS_STUFF]);
     }
 
     /**
@@ -53,7 +54,7 @@ class ImagesPolicy
      */
     public function update(User $user, Images $images)
     {
-        //
+        return in_array($user->user_types_id, [UserTypes::IS_ADMIN, UserTypes::IS_STUFF]);
     }
 
     /**
@@ -65,7 +66,7 @@ class ImagesPolicy
      */
     public function delete(User $user, Images $images)
     {
-        //
+        return in_array($user->user_types_id, [UserTypes::IS_ADMIN, UserTypes::IS_STUFF]);
     }
 
     /**
@@ -77,7 +78,7 @@ class ImagesPolicy
      */
     public function restore(User $user, Images $images)
     {
-        //
+
     }
 
     /**
@@ -89,6 +90,6 @@ class ImagesPolicy
      */
     public function forceDelete(User $user, Images $images)
     {
-        //
+
     }
 }

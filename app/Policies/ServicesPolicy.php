@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Services;
 use App\Models\User;
+use App\Models\UserTypes;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ServicesPolicy
@@ -18,7 +19,7 @@ class ServicesPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        
     }
 
     /**
@@ -41,7 +42,7 @@ class ServicesPolicy
      */
     public function create(User $user)
     {
-        //
+      return in_array($user->user_types_id, [UserTypes::IS_ADMIN, UserTypes::IS_STUFF]);
     }
 
     /**
@@ -53,7 +54,7 @@ class ServicesPolicy
      */
     public function update(User $user, Services $services)
     {
-        //
+      return in_array($user->user_types_id, [UserTypes::IS_ADMIN, UserTypes::IS_STUFF]);
     }
 
     /**
@@ -65,7 +66,7 @@ class ServicesPolicy
      */
     public function delete(User $user, Services $services)
     {
-        //
+      return in_array($user->user_types_id, [UserTypes::IS_ADMIN, UserTypes::IS_STUFF]);
     }
 
     /**
@@ -77,7 +78,7 @@ class ServicesPolicy
      */
     public function restore(User $user, Services $services)
     {
-        //
+        
     }
 
     /**

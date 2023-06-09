@@ -3,10 +3,10 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\Users;
+use App\Models\UserTypes;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class UsersPolicy
+class UserPolicy
 {
     use HandlesAuthorization;
 
@@ -18,17 +18,17 @@ class UsersPolicy
      */
     public function viewAny(User $user)
     {
-        //
+      return $user->user_types_id == UserTypes::IS_ADMIN;
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Users  $users
+     * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Users $users)
+    public function view(User $user, User $model)
     {
         //
     }
@@ -41,41 +41,43 @@ class UsersPolicy
      */
     public function create(User $user)
     {
-        //
+        
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Users  $users
+     * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Users $users)
+    public function update(User $user, User $model)
     {
-        //
+      return (auth()->check && $user->id == auth()->id() || 
+               in_array($user->user_types_id, [UserTypes::IS_ADMIN]));
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Users  $users
+     * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Users $users)
+    public function delete(User $user, User $model)
     {
-        //
+      return (auth()->check && $user->id == auth()->id() || 
+               in_array($user->user_types_id, [UserTypes::IS_ADMIN]));
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Users  $users
+     * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Users $users)
+    public function restore(User $user, User $model)
     {
         //
     }
@@ -84,10 +86,10 @@ class UsersPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Users  $users
+     * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Users $users)
+    public function forceDelete(User $user, User $model)
     {
         //
     }

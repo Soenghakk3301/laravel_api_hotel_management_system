@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\AddOnServices;
 use App\Models\User;
+use App\Models\UserTypes;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class AddOnServicesPolicy
@@ -18,16 +19,16 @@ class AddOnServicesPolicy
      */
     public function viewAny(User $user)
     {
-        //
+
     }
 
     /**
-     * Determine whether the user can view the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\AddOnServices  $addOnServices
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
+      * Determine whether the user can view the model.
+      *
+      * @param  \App\Models\User  $user
+      * @param  \App\Models\AddOnServices  $addOnServices
+      * @return \Illuminate\Auth\Access\Response|bool
+      */
     public function view(User $user, AddOnServices $addOnServices)
     {
         //
@@ -41,7 +42,7 @@ class AddOnServicesPolicy
      */
     public function create(User $user)
     {
-        //
+        return in_array($user->user_types_id, [UserTypes::IS_ADMIN, UserTypes::IS_STUFF]);
     }
 
     /**
@@ -53,7 +54,7 @@ class AddOnServicesPolicy
      */
     public function update(User $user, AddOnServices $addOnServices)
     {
-        //
+        return in_array($user->user_types_id, [UserTypes::IS_ADMIN, UserTypes::IS_STUFF]);
     }
 
     /**
@@ -65,7 +66,7 @@ class AddOnServicesPolicy
      */
     public function delete(User $user, AddOnServices $addOnServices)
     {
-        //
+
     }
 
     /**

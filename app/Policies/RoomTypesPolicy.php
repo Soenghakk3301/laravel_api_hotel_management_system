@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\RoomTypes;
 use App\Models\User;
+use App\Models\UserTypes;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class RoomTypesPolicy
@@ -18,8 +19,8 @@ class RoomTypesPolicy
      */
     public function viewAny(User $user)
     {
-        //
-    }
+
+   }
 
     /**
      * Determine whether the user can view the model.
@@ -41,7 +42,7 @@ class RoomTypesPolicy
      */
     public function create(User $user)
     {
-        //
+      return in_array($user->user_types_id, [UserTypes::IS_ADMIN, UserTypes::IS_STUFF]);
     }
 
     /**
@@ -53,7 +54,7 @@ class RoomTypesPolicy
      */
     public function update(User $user, RoomTypes $roomTypes)
     {
-        //
+      return in_array($user->user_types_id, [UserTypes::IS_ADMIN, UserTypes::IS_STUFF]);
     }
 
     /**
@@ -65,7 +66,7 @@ class RoomTypesPolicy
      */
     public function delete(User $user, RoomTypes $roomTypes)
     {
-        //
+      return in_array($user->user_types_id, [UserTypes::IS_ADMIN, UserTypes::IS_STUFF]);
     }
 
     /**
