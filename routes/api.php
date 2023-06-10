@@ -12,7 +12,7 @@ use App\Http\Controllers\V1\TransactionController;
 use App\Services\SearchAvailable;
 use Illuminate\Support\Facades\Route;
 
-// private routes
+// PRIVATE ROUTES
 Route::apiResource('roomtypes', RoomTypesController::class)
       ->only(['store', 'destroy', 'update'])
       ->middleware(['auth:sanctum', 'role:admin,stuff']);
@@ -21,7 +21,6 @@ Route::apiResource('roomtypes', RoomTypesController::class)
      ->only(['index', 'show']);
 
 // Route::apiResource('roomtypes', RoomTypesController::class);
-
 Route::apiResource('images', ImagesController::class)
       ->only(['store', 'destroy', 'update'])
       ->middleware(['auth:sanctum', 'role:admin,stuff']);
@@ -46,7 +45,7 @@ Route::apiResource('transactions', TransactionController::class)->middleware('au
 
 
 /**
- * special routes, public routes
+ * SPECIAL ROUTES, PUBLIC ROUTES
  */
 Route::get('reservations/searchAvailable', [SearchAvailable::class, 'searchAvailable']);
 Route::post('reservations/addBooking/searchAvailable', [SearchAvailable::class, 'searchAvailable']);
